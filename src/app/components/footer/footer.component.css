@@ -1,0 +1,19 @@
+footer {
+    display       : flex;
+    flex-direction: column-reverse;
+    padding: 0 20px;
+    background-color: #201e4b;
+    color: #FFF;
+}
+
+@media screen and (min-width: 550px) {
+    footer {
+        flex-direction : row;
+        justify-content: space-between;
+        align-items    : center;
+    }
+
+    ul {
+        margin-bottom: 0;
+    }
+}
