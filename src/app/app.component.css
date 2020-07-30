@@ -27,3 +27,15 @@
 .page-main div {
     max-width: 500px;
 }
+
+.client-time-container {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1;
+}
+
+.client-time-container > * {
+    color: #FFF;
+    font-weight: 300;
+}
