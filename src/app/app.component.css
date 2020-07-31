@@ -4,10 +4,6 @@
     min-height    : 100vh;
 }
 
-.page-main {
-    flex-grow: 1;
-}
-
 /* variables */
 :root {
     --main-white-color : white;
@@ -17,11 +13,13 @@
 .page-main {
     display              : flex;
     flex-direction       : column;
+    flex-grow            : 1;
     justify-content      : center;
     min-height           : 350px;
     background           : var(--main-purple-color) no-repeat center / cover;
     background-blend-mode: luminosity;
     color                : var(--main-white-color);
+    position             : relative;
 }
 
 .page-main div {
@@ -30,12 +28,13 @@
 
 .client-time-container {
     position: absolute;
-    bottom: 24px;
-    right: 24px;
-    z-index: 1;
+    bottom  : 24px;
+    right   : 24px;
+    z-index : 1;
 }
 
-.client-time-container > * {
-    color: #FFF;
+.client-time-container>* {
+    color      : #FFF;
+    font-size  : 24px;
     font-weight: 300;
 }
