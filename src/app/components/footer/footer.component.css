@@ -1,8 +1,28 @@
 footer {
-    display       : flex;
-    flex-direction: column-reverse;
-    padding: 20px;
+    display         : flex;
+    flex-direction  : column-reverse;
+    padding         : 20px;
     background-color: #201e4b;
+    color           : #FFF;
+}
+
+footer ul {
+    display        : flex;
+    font-size      : 1.2rem;
+    list-style-type: none;
+    margin         : 0 0 12px;
+    padding        : 0;
+}
+
+footer ul > li {
+    margin-right: 12px;
+}
+
+footer ul a {
+    color: #1fb4ac;
+}
+
+footer ul a:hover {
     color: #FFF;
 }
 
@@ -13,7 +33,7 @@ footer {
         align-items    : center;
     }
 
-    ul {
+    footer ul {
         margin-bottom: 0;
     }
 }
