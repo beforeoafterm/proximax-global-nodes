@@ -12,6 +12,7 @@ import * as moment from 'moment-timezone';
 
 export class AppComponent implements OnInit {
   timeNow: any;
+  private tz: string;
   private globeGl: any;
   private globeContainerHeight: number;
   private globeContainerWidth: number;
@@ -30,10 +31,11 @@ export class AppComponent implements OnInit {
   }
 
   private initClock() {
-    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    this.timeNow = moment().tz(tz).format("hh:mmA z");
+    this.tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const timeFormat = "hh:mmA z";
+    this.timeNow = moment().tz(this.tz).format(timeFormat);
     setInterval(() => {
-      this.timeNow = moment().tz(tz).format("hh:mmA z");
+      this.timeNow = moment().tz(this.tz).format(timeFormat);
     }, 60000)
   }
 
@@ -44,9 +46,17 @@ export class AppComponent implements OnInit {
     this.globeContainerHeight = window.innerHeight - headerHeight - footerHeight - globeGlContainerMargin;
     this.globeGl = Globe()
     .height(this.globeContainerHeight)
-    .globeImageUrl('/assets/img/earth-night.jpg')
+    .globeImageUrl(this.getEarthTextureMap())
     .backgroundImageUrl('/assets/img/starscape.png')
     .bumpImageUrl('/assets/img/earth-topology.png')
     (document.getElementById('globe'));
+  }
+
+  private getEarthTextureMap() {
+    const earthTextureDaySrc = '/assets/img/earth-day.jpg';
+    const earthTextureNightSrc = '/assets/img/earth-night.jpg';
+    const hourNow = moment().tz(this.tz).hour();
+    const isDayTime = hourNow > 6 && hourNow < 18;
+    return isDayTime ? earthTextureDaySrc : earthTextureNightSrc;
   }
 }
