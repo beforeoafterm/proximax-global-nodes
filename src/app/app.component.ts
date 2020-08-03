@@ -12,6 +12,7 @@ import * as moment from 'moment-timezone';
 
 export class AppComponent implements OnInit {
   timeNow: any;
+  dateNow: any;
   private tz: string;
   private globeGl: any;
   private globeContainerWidth: number;
@@ -20,7 +21,7 @@ export class AppComponent implements OnInit {
   @ViewChild('footer', { read: ElementRef }) footer: ElementRef;
 
   constructor() {
-    this.initClock();
+    this.initDateTimeDisplay();
   }
 
   ngOnInit() { }
@@ -35,10 +36,12 @@ export class AppComponent implements OnInit {
     this.globeGl.height(this.computeGlobeContainerHeight(event.target.innerHeight));
   }
 
-  private initClock() {
+  private initDateTimeDisplay() {
     this.tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const timeFormat = "hh:mmA z";
+    const timeFormat = "h:mmA z";
+    const dateFormat = "dddd, MMMM D, YYYY";
     this.timeNow = moment().tz(this.tz).format(timeFormat);
+    this.dateNow = moment().tz(this.tz).format(dateFormat);
     setInterval(() => {
       this.timeNow = moment().tz(this.tz).format(timeFormat);
     }, 60000)

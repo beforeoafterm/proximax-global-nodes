@@ -26,15 +26,24 @@
     max-width: 500px;
 }
 
-.client-time-container {
-    position: absolute;
-    bottom  : 24px;
-    right   : 24px;
-    z-index : 1;
+.client-date-time-container {
+    text-align: right;
+    position  : absolute;
+    bottom    : 24px;
+    right     : 24px;
+    z-index   : 1;
 }
 
-.client-time-container>* {
-    color      : #FFF;
+.client-date-time-container>* {
+    color: #FFF;
+}
+
+.client-date-time-container>.time {
+    display    : block;
     font-size  : 24px;
     font-weight: 300;
+}
+
+.client-date-time-container>.date {
+    font-size: 12px;
 }
