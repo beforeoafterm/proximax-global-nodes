@@ -41,13 +41,11 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.globeGl.width(event.target.innerWidth);
-    this.globeGl.height(
-      this.globeGlService.computeContainerHeight(
-        event.target.innerHeight,
-        this.header.nativeElement.offsetHeight,
-        this.footer.nativeElement.offsetHeight
-    ));
+    this.globeGl = this.globeGlService.updateDimensions({
+      globeGlInstance: this.globeGl,
+      topOffsetHeight: this.header.nativeElement.offsetHeight,
+      bottomOffsetHeight: this.footer.nativeElement.offsetHeight
+    });
   }
 
   private initDateTimeDisplay() {
