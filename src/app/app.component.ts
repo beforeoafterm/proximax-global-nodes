@@ -1,4 +1,5 @@
 import { Component, ViewChild, AfterViewInit, ElementRef, OnInit, HostListener } from '@angular/core';
+import { GlobeGlService } from './services/globe-gl.service';
 import Globe from 'globe.gl';
 import * as moment from 'moment-timezone';
 
@@ -20,20 +21,33 @@ export class AppComponent implements OnInit {
   @ViewChild('header', { read: ElementRef }) header: ElementRef;
   @ViewChild('footer', { read: ElementRef }) footer: ElementRef;
 
-  constructor() {
+  constructor(private globeGlService: GlobeGlService) {
+    this.globeGlService = globeGlService;
     this.initDateTimeDisplay();
   }
 
   ngOnInit() { }
 
   ngAfterViewInit() {
-    this.initGlobe();
+    this.globeGl = this.globeGlService.init({
+      elementId: 'globe',
+      topOffsetHeight: this.header.nativeElement.offsetHeight,
+      bottomOffsetHeight: this.footer.nativeElement.offsetHeight,
+      textureMapSrc: this.getEarthTextureMapFromTime(),
+      backgroundImageSrc: '/assets/img/starscape.png',
+      bumpImageSrc: '/assets/img/earth-topology.png'
+    })
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.globeGl.width(event.target.innerWidth);
-    this.globeGl.height(this.computeGlobeContainerHeight(event.target.innerHeight));
+    this.globeGl.height(
+      this.globeGlService.computeContainerHeight(
+        event.target.innerHeight,
+        this.header.nativeElement.offsetHeight,
+        this.footer.nativeElement.offsetHeight
+    ));
   }
 
   private initDateTimeDisplay() {
@@ -47,27 +61,11 @@ export class AppComponent implements OnInit {
     }, 60000)
   }
 
-  private initGlobe() {
-    this.globeGl = Globe()
-      .height(this.computeGlobeContainerHeight(window.innerHeight))
-      .globeImageUrl(this.getEarthTextureMap())
-      .backgroundImageUrl('/assets/img/starscape.png')
-      .bumpImageUrl('/assets/img/earth-topology.png')
-      (document.getElementById('globe'));
-  }
-
-  private getEarthTextureMap() {
+  private getEarthTextureMapFromTime() {
     const earthTextureDaySrc = '/assets/img/earth-day.jpg';
     const earthTextureNightSrc = '/assets/img/earth-night.jpg';
     const hourNow = moment().tz(this.tz).hour();
     const isDayTime = hourNow > 6 && hourNow < 18;
     return isDayTime ? earthTextureDaySrc : earthTextureNightSrc;
-  }
-
-  private computeGlobeContainerHeight(windowHeight: number) {
-    const headerHeight = this.header.nativeElement.offsetHeight;
-    const footerHeight = this.footer.nativeElement.offsetHeight;
-    const globeGlContainerMargin = 4;
-    return windowHeight - headerHeight - footerHeight - globeGlContainerMargin;
   }
 }
